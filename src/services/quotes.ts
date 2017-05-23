@@ -5,7 +5,6 @@ export class QuotesService {
 
   addQuoteToFavorites(quote: Quote) {
     this.favoriteQuotes.push(quote);
-    console.log(this.favoriteQuotes);
   }
 
   removeQuoteFromFavorites(quote: Quote){
@@ -17,5 +16,11 @@ export class QuotesService {
 
   getFavoriteQuotes(){
     return this.favoriteQuotes.slice();
+  }
+
+  isQuoteFavorite(quote: Quote) {
+    return this.favoriteQuotes.find((quoteElement: Quote) => {
+      return quoteElement.id == quote.id;
+    });
   }
 }

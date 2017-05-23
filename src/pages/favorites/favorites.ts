@@ -1,3 +1,4 @@
+import { SettingsService } from './../../services/settings';
 import { QuotePage } from './../quote/quote';
 import { QuotesService } from './../../services/quotes';
 import { Component } from '@angular/core';
@@ -13,11 +14,13 @@ export class FavoritesPage {
 
   constructor(
     private quotesService: QuotesService,
-    private modalCtrl: ModalController ){
+    private modalCtrl: ModalController,
+    private settingsService: SettingsService){
   }
 
   ionViewWillEnter(){
     this.quotes = this.quotesService.getFavoriteQuotes();
+    console.log(this.settingsService.isAlternativeBackground());
   }
 
   onViewQuote(quote: Quote){
@@ -26,9 +29,13 @@ export class FavoritesPage {
     modal.present();
     modal.onDidDismiss((remove: boolean) => {
       if(remove){
-        this.quotesService.removeQuoteFromFavorites(quote);
-        this.quotes = this.quotesService.getFavoriteQuotes();
+        this.onRemoveFromFavorites(quote);
       }
     });
+  }
+
+  onRemoveFromFavorites(quote: Quote) {
+    this.quotesService.removeQuoteFromFavorites(quote);
+    this.quotes = this.quotesService.getFavoriteQuotes();
   }
 }
